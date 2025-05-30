@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CEI - Estrela Cadente</title>
+
+    <!-- Fonte suave -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css?v=1.02" />
+
+    <style>
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #e0fff4;
+            /* Tom pastel suave */
+            color: #333;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        header {
+            background: #00FF7F;
+            padding: 15px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgb(0 255 127 / 0.3);
+        }
+
+        nav {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        nav a {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #004d29;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        nav a:hover,
+        nav a.active {
+            background-color: #004d29;
+            color: #00FF7F;
+        }
+
+        main {
+            padding-top: 80px;
+            /* espaço para header fixo */
+            max-width: 1100px;
+            margin: 0 auto 50px auto;
+        }
+
+        /* CARROSSEL */
+        .carousel-container {
+            position: relative;
+            max-width: 100%;
+            height: 320px;
+            overflow: hidden;
+            border-radius: 12px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+            height: 100%;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            user-select: none;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        /* Botões de seta */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 255, 127, 0.7);
+            border: none;
+            color: #004d29;
+            font-size: 2rem;
+            padding: 6px 12px;
+            cursor: pointer;
+            border-radius: 50%;
+            user-select: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .carousel-btn:hover {
+            background: #004d29;
+            color: #00FF7F;
+        }
+
+        .carousel-btn.left {
+            left: 15px;
+        }
+
+        .carousel-btn.right {
+            right: 15px;
+        }
+
+        /* Seções de conteúdo */
+        section {
+            background: #f8fff9;
+            padding: 25px 30px;
+            border-radius: 12px;
+            margin-bottom: 50px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        section h2 {
+            color: #007f4f;
+            margin-bottom: 18px;
+            font-weight: 700;
+        }
+
+        section p {
+            font-weight: 300;
+            font-size: 1.1rem;
+            line-height: 2.0;
+            /* mantém quebras do texto */
+        }
+
+        /* Campo de imagem para Sobre Nós */
+        .about-image {
+            max-width: 300px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Grid de imagens espaços */
+        .spaces-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .spaces-grid img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .spaces-grid img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Formulário */
+        form {
+            background: #e0fff4;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 255, 127, 0.3);
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+        }
+
+        form h3 {
+            color: #007f4f;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #004d29;
+        }
+
+        form input,
+        form textarea {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 18px;
+            border: 1.5px solid #00FF7F;
+            border-radius: 8px;
+            font-size: 1rem;
+            resize: vertical;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        form button {
+            background: #00FF7F;
+            border: none;
+            color: #004d29;
+            padding: 12px 18px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        form button:hover {
+            background: #007f4f;
+            color: #e0fff4;
+        }
+
+        /* Rodapé */
+        footer {
+            background: #004d29;
+            color: #c9ffde;
+            text-align: center;
+            padding: 25px 10px;
+            position: relative;
+        }
+
+        footer .social-icons {
+            margin-bottom: 15px;
+        }
+
+        footer .social-icons a {
+            color: #c9ffde;
+            margin: 0 12px;
+            font-size: 1.8rem;
+            transition: color 0.3s ease;
+        }
+
+        footer .social-icons a:hover {
+            color: #00FF7F;
+        }
+
+        footer small {
+            font-weight: 300;
+        }
+
+        /* Google Maps */
+        #map {
+            width: 100%;
+            height: 300px;
+            border-radius: 12px;
+            margin-bottom: 50px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+        }
+
+        /* Layout mobile */
+        @media (max-width: 720px) {
+            nav {
+                gap: 15px;
+                flex-wrap: wrap;
+            }
+
+            nav a {
+                font-size: 1rem;
+                padding: 6px 10px;
+            }
+
+            .carousel-container {
+                height: 220px;
+            }
+
+            .carousel-slide img {
+                height: 220px;
+            }
+
+            .spaces-grid img {
+                height: 120px;
+            }
+
+            form {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <a href="#inicio" class="nav-link active">Início</a>
+            <a href="#sobre-nos" class="nav-link">Sobre Nós</a>
+            <a href="#bercario" class="nav-link">Berçário</a>
+            <a href="#kids" class="nav-link">Kids</a>
+            <a href="#pre" class="nav-link">Pré</a>
+        </nav>
+    </header>
+
+    <main>
+
+        <!-- Início -->
+        <section id="inicio">
+            <!-- Carrossel -->
+            <div class="carousel-container">
+                <div class="carousel-track">
+                    <div class="carousel-slide">
+                        <img src="img/imgfora.jpg" alt="Imagem da Escola 1" />
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="img/imghorta.jpg" alt="Imagem da Escola 2" />
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="img/imgrede.jpg" alt="Imagem da Escola 3" />
+                    </div>
+                </div>
+                <button class="carousel-btn left" aria-label="Imagem anterior">&#10094;</button>
+                <button class="carousel-btn right" aria-label="Próxima imagem">&#10095;</button>
+            </div>
+
+            <h2>Bem-vindo à Nossa Escola Infantil</h2>
+            <p>
+                Acreditamos que cada criança merece um ambiente acolhedor, seguro e estimulante para crescer feliz e com
+                autonomia. Nossa escola é feita para famílias que buscam carinho e excelência na educação infantil.
+            </p>
+
+            <h3>Espaços da Escola</h3>
+            <div class="spaces-grid">
+                <img src="img/imgfora.jpg" alt="Área de Lazer" />
+                <img src="img/imghorta.jpg" alt="Área de Aprendizado" />
+                <img src="img/imgrede.jpg" alt="Espaço Criativo" />
+            </div>
+
+        </section>
+
+        <!-- Sobre Nós -->
+        <section id="sobre-nos">
+            <h2>Sobre Nós</h2>
+            <img src="img/equipe.jpg" alt="Equipe da Escola" class="about-image" />
+            <p>
+                Na nossa escola de educação infantil, acreditamos que cada criança é única e carrega dentro de si um
+                mundo de possibilidades. Nosso compromisso é proporcionar um ambiente acolhedor, seguro e estimulante,
+                onde os pequenos possam se desenvolver com alegria, confiança e autonomia.
+
+                Com uma equipe pedagógica experiente e apaixonada pelo que faz, oferecemos um ensino de qualidade,
+                baseado em valores como respeito, empatia, criatividade e cooperação. Aqui, o brincar é levado a sério —
+                pois sabemos que é através das brincadeiras, das descobertas e das interações que as crianças constroem
+                o conhecimento e desenvolvem habilidades essenciais para a vida.
+
+                Nossas atividades são cuidadosamente planejadas para atender às necessidades de cada faixa etária,
+                respeitando o ritmo e os interesses individuais. Além disso, valorizamos a parceria com as famílias,
+                criando uma rede de apoio e diálogo constante que fortalece o processo de aprendizagem.
+
+                Mais do que preparar para o futuro, queremos que cada criança viva plenamente a infância — com
+                encantamento, curiosidade e amor.
+
+                Seja bem-vindo à nossa escola. Aqui, crescer é uma aventura maravilhosa!
+            </p>
+        </section>
+
+        <!-- Berçário -->
+        <section id="bercario">
+            <h2>Nosso Berçário</h2>
+            <p>
+                O berçário é o primeiro grande passo da criança fora do ambiente familiar — e, por isso, ele precisa ser
+                repleto de carinho, segurança e atenção individualizada. No nosso berçário, cuidamos dos bebês com todo
+                o amor, respeito e sensibilidade que essa fase tão especial exige.
+
+                Contamos com uma equipe especializada em desenvolvimento infantil, preparada para atender às
+                necessidades físicas, emocionais e afetivas dos pequenos, sempre respeitando seus ritmos e
+                particularidades. Cada gesto, cada descoberta e cada conquista são valorizados, acompanhados de perto e
+                celebrados com os pais.
+
+                Nosso espaço é cuidadosamente planejado para ser acolhedor, higienizado e seguro, com estímulos
+                sensoriais apropriados à idade e atividades que promovem o vínculo, o conforto e o desenvolvimento motor
+                e cognitivo.
+
+                Mais do que um local de cuidado, o berçário é um ambiente de afeto, escuta e presença — onde cada bebê é
+                tratado com o mesmo zelo que receberia em casa. Aqui, o início da jornada escolar é vivido com
+                confiança, tranquilidade e muito amor.
+            </p>
+        </section>
+
+        <!-- Kids -->
+        <section id="kids">
+            <h2>Educação Infantil – Kids</h2>
+            <p>
+                Na fase Kids, o mundo se expande e as descobertas ganham cor, som e movimento! Aqui, as crianças começam
+                a explorar com mais autonomia, interagir com os colegas e desenvolver habilidades importantes para a
+                vida — tudo isso em um ambiente seguro, afetivo e cheio de estímulos criativos.
+
+                Nosso espaço foi pensado para incentivar a curiosidade natural da criança, respeitando seu ritmo de
+                desenvolvimento e valorizando suas conquistas diárias. Através de atividades lúdicas, projetos
+                temáticos, música, movimento, artes e contação de histórias, promovemos o aprendizado de forma leve,
+                divertida e significativa.
+
+                Nossa equipe pedagógica acompanha cada criança de forma próxima e cuidadosa, estimulando a comunicação,
+                a socialização, a criatividade e o pensamento crítico desde os primeiros anos. Trabalhamos com valores
+                como respeito, empatia, colaboração e autonomia, preparando os pequenos para os desafios que virão, sem
+                pressa de crescer.
+
+                No Kids, aprender é brincar, descobrir e se encantar com o mundo ao redor. E nós estamos aqui, lado a
+                lado com as famílias, acompanhando cada passo dessa jornada única e inesquecível.
+            </p>
+        </section>
+
+        <!-- Pré -->
+        <section id="pre">
+            <h2>Turma do Pré</h2>
+            <p>
+                Na turma do Pré, cada dia é uma nova oportunidade de aprender, crescer e sonhar! Essa é uma fase de
+                transição muito importante, em que a criança começa a se preparar para o ensino fundamental — mas sem
+                deixar de lado o encantamento e a leveza da infância.
+
+                Nosso trabalho nessa etapa tem como base o desenvolvimento integral da criança, unindo experiências
+                lúdicas, afetivas e cognitivas que despertam o interesse pelo conhecimento, o prazer em aprender e a
+                confiança em suas próprias capacidades.
+
+                Com propostas pedagógicas ricas e significativas, incentivamos o raciocínio lógico, a linguagem oral e
+                escrita, a coordenação motora, a autonomia e as habilidades socioemocionais, sempre respeitando o ritmo
+                de cada criança. Tudo isso em um ambiente acolhedor, alegre e colaborativo, onde o brincar continua
+                sendo parte essencial do processo de aprendizagem.
+
+                A parceria com as famílias segue como um pilar fundamental, pois acreditamos que a educação é uma
+                construção conjunta. No Pré, lançamos as bases para um futuro de descobertas, conquistas e amor pelo
+                saber — com muito carinho e propósito.
+            </p>
+        </section>
+
+<section id="Contato">
+        <h3>Contato</h3>
+            <form id="contact-form">
+                <h3>Fale Conosco</h3>
+                <label for="name">Nome</label>
+                <input type="text" id="name" name="name" required placeholder="Seu nome" />
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required placeholder="seu@email.com" />
+
+                <label for="message">Mensagem</label>
+                <textarea id="message" name="message" rows="4" required
+                    placeholder="Escreva sua mensagem aqui"></textarea>
+
+                <button type="submit">Enviar</button>
+            </form>
+
+            <div id="form-status" style="text-align:center; font-weight:600; color:#007f4f;"></div>
+        </section>
+    </main>
+
+    <div style="text-align: center;">
+    <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3659.138047962264!2d-46.388261425924824!3d-23.491536659028306!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce636611e24819%3A0x470c2b575fc238d9!2sR.%20Dr.%20Jos%C3%A9%20Pereira%20Gomes%2C%2079%20-%20Jardim%20das%20Oliveiras%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2008111-310!5e0!3m2!1spt-BR!2sbr!4v1748446690614!5m2!1spt-BR!2sbr"
+        width="70%" height="450" style="border:0; margin: 0 auto;" allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+
+    <footer>
+        <div class="social-icons">
+            <a href="https://www.facebook.com/CEI.estrelacadente/" target="_blank" rel="noopener" aria-label="Facebook"
+                class="icon-facebook"><i class="fa-brands fa-facebook"></i></a>
+            <a href="https://www.instagram.com/cei_estrela.cadente/" target="_blank" rel="noopener"
+                aria-label="Instagram" class="icon-instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+        <small>© 2025 CEI - Estrela Cadente. Todos os direitos reservados.</small>
+    </footer>
+
+    <!-- Scripts -->
+
+    <script>
+        // CARROSSEL
+        const track = document.querySelector('.carousel-track');
+        const slides = Array.from(track.children);
+        const prevBtn = document.querySelector('.carousel-btn.left');
+        const nextBtn = document.querySelector('.carousel-btn.right');
+        let currentIndex = 0;
+        const slideWidth = slides[0].getBoundingClientRect().width;
+
+        // Arrange slides side by side
+        slides.forEach((slide, index) => {
+            slide.style.left = slideWidth * index + 'px';
+        });
+
+        function moveToSlide(index) {
+            if (index < 0) index = slides.length - 1;
+            if (index >= slides.length) index = 0;
+            track.style.transform = 'translateX(-' + slides[index].style.left + ')';
+            currentIndex = index;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            moveToSlide(currentIndex - 1);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            moveToSlide(currentIndex + 1);
+        });
+
+        // Auto slide a cada 5 segundos
+        setInterval(() => {
+            moveToSlide(currentIndex + 1);
+        }, 5000);
+
+        // Navegação ativa no header
+        const navLinks = document.querySelectorAll('nav a');
+
+        function updateActiveLink() {
+            let index = navLinks.length;
+
+            while (--index && window.scrollY + 100 < document.querySelector(navLinks[index].hash).offsetTop) { }
+
+            navLinks.forEach(link => link.classList.remove('active'));
+            navLinks[index].classList.add('active');
+        }
+
+        updateActiveLink();
+        window.addEventListener('scroll', updateActiveLink);
+
+        // FORMULÁRIO com EmailJS
+        // Para funcionar, crie conta gratuita em https://www.emailjs.com/
+        // Configure service_id, template_id e user_id abaixo:
+        const serviceID = 'YOUR_SERVICE_ID';
+        const templateID = 'YOUR_TEMPLATE_ID';
+        const userID = 'YOUR_PUBLIC_KEY';
+
+        document.getElementById('contact-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const statusDiv = document.getElementById('form-status');
+            statusDiv.textContent = 'Enviando...';
+
+            const templateParams = {
+                from_name: this.name.value,
+                from_email: this.email.value,
+                message: this.message.value
+            };
+
+            // Carregar EmailJS (biblioteca via CDN)
+            if (!window.emailjs) {
+                const script = document.createElement('script');
+                script.src = "https://cdn.emailjs.com/dist/email.min.js";
+                script.onload = () => {
+                    emailjs.init(userID);
+                    sendEmail();
+                };
+                script.onerror = () => {
+                    statusDiv.textContent = 'Erro ao carregar serviço de envio.';
+                };
+                document.body.appendChild(script);
+            } else {
+                sendEmail();
+            }
+
+            function sendEmail() {
+                emailjs.send(serviceID, templateID, templateParams)
+                    .then(() => {
+                        statusDiv.style.color = '#007f4f';
+                        statusDiv.textContent = 'Mensagem enviada com sucesso! Obrigado pelo contato.';
+                        document.getElementById('contact-form').reset();
+                    }, (error) => {
+                        statusDiv.style.color = '#ff4d4d';
+                        statusDiv.textContent = 'Erro ao enviar mensagem. Tente novamente mais tarde.';
+                        console.error('EmailJS error:', error);
+                    });
+            }
+        });
+
+    </script>
+</body>
+
+</html>
